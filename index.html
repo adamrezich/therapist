@@ -1,0 +1,612 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>therapist example</title>
+  
+  <meta name="author" content="Adam Rezich">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- reset.css -->
+  <style type="text/css">
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure, 
+    footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+    body {
+      line-height: 1;
+    }
+    ol, ul {
+      list-style: none;
+    }
+    blockquote, q {
+      quotes: none;
+    }
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+      content: '';
+      content: none;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+  </style>
+  
+  <!-- google fonts -->
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300,100,100italic,300italic,400italic,700,900,900italic,700italic' rel='stylesheet' type='text/css'>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  
+  <!-- this.css -->
+	<style type="text/css">
+    * {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      cursor: default;
+    }
+    
+    body {
+      margin: 50px;
+      background: rgb(189, 195, 199);
+      font-family: 'Lato', sans-serif;
+    }
+    
+    a, a:visited {
+      color: rgb(52, 152, 219);
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 400;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    strong {
+      font-weight: 400;
+      color: rgb(244, 247, 247);
+    }
+    
+    p {
+      color: rgb(189, 195, 199);
+      font-weight: 300;
+      font-size: 16pt;
+      letter-spacing: -.04em;
+      word-spacing: .04em;
+      line-height: 115%;
+      margin: 7px 0;
+      text-shadow: 0 0 2px rgba(55, 55, 55, 0.25);
+    }
+    
+    em {
+      font-style: italic;
+      color: rgb(127, 140, 141);
+    }
+    
+    h1 {
+      position: absolute;
+      top: 0;
+      left: 7%;
+      font-size: 12pt;
+      letter-spacing: .08em;
+      padding: 10px 0;
+      color: rgba(77, 108, 138, 0.85);
+      text-align: center;
+      width: 30%;
+      margin-left: -15%;
+      overflow: visible;
+      text-shadow: 0 0 4px rgba(44, 62, 80, 0.85);
+      
+      -webkit-transition: all 0.12s ease;
+      -moz-transition:    all 0.12s ease;
+      -ms-transition:     all 0.12s ease;
+      -o-transition:      all 0.12s ease;
+      transition:         all 0.12s ease;
+    }
+    
+    h1.big {
+      font-size: 36pt;
+      letter-spacing: .02em;
+      left: 50%;
+      top: 12%;
+      color: rgba(77, 108, 138, 1);
+      text-shadow: 0 0 8px rgb(44, 62, 80);
+    }
+    
+    #header {
+      position: relative;
+    }
+    
+    .visible {
+      opacity: 1 !important;
+    }
+    
+    .hidden {
+      opacity: 0 !important;
+    }
+    
+    #stepContainer {
+      background: rgb(52, 73, 94);
+      border-radius: 10px;
+      padding: 10px;
+      position: absolute;
+      width: 720px;
+      height: 290px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
+      overflow: visible;
+    }
+    
+    #stepContainer > div:not(#stepContainer-copyright) {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    #stepContainer-copyright {
+      font-size: 10pt;
+      display: block;
+      position: absolute;
+      bottom: -1.2em;
+      right: 20px;
+      text-align: right;
+      color: rgb(127, 140, 141);
+    }
+    
+    #stepContainer-bodyContainer {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      min-height: 240px;
+      flex-grow: 1;
+    }
+    
+    #stepContainer-body {
+      flex: 1;
+      padding: 0 10px;
+      margin-right: 5px;
+      text-align: center;
+    }
+    
+    #stepContainer-video {
+      /*min-width: 320px;*/
+      max-height: 240px;
+    }
+    
+    #stepContainer-options {
+      display: flex;
+    }
+    
+    #stepContainer-controls {
+      display: flex;
+    }
+    
+    #stepContainer-controls > li {
+      opacity: 0;
+      -webkit-transition: opacity 0.25s ease;
+      -moz-transition:    opacity 0.25s ease;
+      -ms-transition:     opacity 0.25s ease;
+      -o-transition:      opacity 0.25s ease;
+      transition:         opacity 0.25s ease;
+    }
+    
+    #stepContainer-controls.visible {
+    }
+    
+    #stepContainer-bottom {
+      margin-top: 10px;
+    }
+    
+    #stepContainer-bottom ul li a { /* BUTTON */
+      display: block;
+      background: rgb(41, 128, 185);
+      border-radius: 7px;
+      height: 30px;
+      padding: 5px 10px;
+      line-height: 30px;
+      font-size: 18pt;
+      color: rgb(236, 240, 241);
+      min-width: 60px;
+      text-align: center;
+      text-shadow: 0 0 2px rgba(55, 55, 55, 0.75);
+      letter-spacing: -.04em;
+      word-spacing: .04em;
+      box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.25);
+      -webkit-transition: all 0.15s ease;
+      -moz-transition:    all 0.15s ease;
+      -ms-transition:     all 0.15s ease;
+      -o-transition:      all 0.15s ease;
+      transition:         all 0.15s ease;
+    }
+    
+    #stepContainer-bottom ul li a:hover {
+      text-decoration: none;
+      background: rgb(52, 152, 219);
+      color: white;
+      /*margin-top: 1px;*/
+    }
+    
+    #stepContainer-controls li {
+      margin-left: 10px;
+    }
+    
+    #stepContainer-options li {
+      margin-right: 10px;
+    }
+    
+    /* BUTTON: controls */
+    #stepContainer-bottom ul#stepContainer-controls li a {
+      background: rgb(127, 140, 141);
+    }
+    #stepContainer-bottom ul#stepContainer-controls li a:hover {
+      background: rgb(149, 165, 166);
+    }
+    
+    /* BUTTON: green */
+    #stepContainer-bottom ul li a.green {
+      background: rgb(39, 174, 96);
+    }
+    #stepContainer-bottom ul li a.green:hover {
+      background: rgb(46, 204, 113);
+    }
+    
+    /* BUTTON: red */
+    #stepContainer-bottom ul li a.red {
+      background: rgb(192, 57, 43);
+    }
+    #stepContainer-bottom ul li a.red:hover {
+      background: rgb(231, 76, 60);
+    }
+    
+    #stepContainer-video {
+      border-radius: 10px;
+      -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC); /* this fixes the overflow:hidden in Chrome/Opera */
+    }
+    
+    .header-spacer {
+      font-size: 36pt;
+      height: 1em;
+    }
+    
+    @media (max-width: 720px) {
+      .mobile {
+        display: block;
+      }
+      
+      body {
+        margin: 0;
+      }
+      
+      h1, h1.big {
+        position: inherit;
+        top: initial;
+        left: initial;
+        margin-left: inherit;
+        width: inherit;
+      }
+      
+      #header {
+        background: #2c3e50;
+      }
+      
+      
+      h1.big {
+        margin-top: 20px;
+      }
+      
+      
+      #stepContainer {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        top: initial;
+        right: initial;
+        bottom: initial;
+        left: initial;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+      }
+      
+      #stepContainer-content {
+        height: auto;
+        flex-direction: column;
+        /*overflow: scroll;*/
+        margin-top: 40px;
+        margin-bottom: -40px;
+      }
+      
+      #stepContainer-video {
+        width: 320px;
+        margin: 0 auto;
+      }
+      
+      #stepContainer-bottom {
+        height: auto;
+        margin-top: 50px;
+        padding: 5px;
+        flex-direction: column;
+      }
+      #stepContainer-options {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        
+      }
+      #stepContainer-options li {
+        min-width: 50%;
+        max-width: 100%;
+        margin: 0;
+      }
+      #stepContainer-options li a {
+        margin: 5px;
+      }
+      #stepContainer-controls {
+        display: none;
+      }
+    }
+	</style>
+</head>
+<body>
+  
+  <div id="stepContainer">
+   
+    <h1 class="big" style="opacity: 0;">therapist example</h1>
+    
+    <div id="stepContainer-content" style="opacity: 0;">
+      <div id="stepContainer-bodyContainer">
+        <div id="stepContainer-body">
+        </div>
+      </div>
+      <div id="stepContainer-video">
+      </div>
+    </div>
+    
+    <div id="stepContainer-bottom">
+      <ul id="stepContainer-options" style="opacity: 0;"></ul>
+      <ul id="stepContainer-controls">
+        <li id="button-back"><a href="javascript:void(0)" class="goBack">Go back</a></li>
+        <li id="button-restart"><a href="javascript:void(0)" class="startOver">Start over</a></li>
+      </ul>
+    </div>
+    <div id="stepContainer-copyright">powered by <a href="https://github.com/adamrezich/therapist" target="_blank">therapist</a></div>
+  </div>
+  
+  
+  
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  
+  <script type="text/javascript">
+    var currentOptions = [];
+    var stepNumber = -1;
+    var detached = false;
+    var changing = false;
+    
+    var required = {
+      sms: null,
+      authPlatform: null
+    };
+    
+    function smarten(a) {
+      return a; // TODO: curly quotes pls
+    };
+    
+    function option_click(elem) {
+      if (changing)
+        return;
+      show_step(currentOptions[$(elem).index()]);
+    }
+    
+    function show_step(stepName) {
+      console.log(stepName);
+      ++stepNumber;
+      
+      if (stepName == '') {
+        history.pushState("", document.title, window.location.pathname + window.location.search);
+        locationHash_changed();
+      }
+      else
+        location.hash = stepName;
+    }
+    
+    function start_over() {
+      if (changing)
+        return;
+      detached = false;
+      stepNumber = -1;
+      toggle_controls();
+      show_step('');
+    }
+    
+    function go_back() {
+      if (changing)
+        return;
+      --stepNumber;
+      toggle_controls();
+      window.history.back();
+    }
+    
+    function toggle_controls() {
+      if (stepNumber > 0) {
+        $('#button-back').delay(100).addClass('visible');
+        $('#button-restart').delay(100).addClass('visible');
+      }
+      else if (detached) {
+        $('#button-back').delay(100).removeClass('visible');
+        $('#button-restart').delay(100).addClass('visible');
+      }
+      else {
+        $('#button-back').delay(100).removeClass('visible');
+        $('#button-restart').delay(100).removeClass('visible');
+      }
+    }
+    
+    function locationHash_changed() {
+      changing = true;
+      
+      var first = location.hash.substring(1) == '' ? '#stepContainer-content' : '#stepContainer-options';
+      var second = location.hash.substring(1) == '' ? '#stepContainer-options' : '#stepContainer-content';
+      
+      $(first).animate({ opacity: 0 }, 250);
+      $(second).delay(200).animate({ opacity: 0 }, 250, function() {
+        
+        
+        var step = steps[location.hash.substring(1)];
+        
+        if (location.hash.substring(1) == '') {
+          $('h1').addClass('big');
+        }
+        else {
+          $('h1').removeClass('big');
+        }
+        
+        $('#stepContainer-body').html(smarten(step.html));
+        
+        $('#stepContainer-options').empty();
+        currentOptions.length = 0;
+        
+        toggle_controls();
+        
+        var elem;
+        
+        // video
+        if (step.video !== undefined) {
+          elem = $('#stepContainer-video').append($('<video>').attr({
+            width: 320,
+            height: 240,
+            loop: '',
+            autoplay: ''
+          }).append($('<source>').attr({
+            src: step.video,
+            type: 'video/mp4'
+          })));
+        }
+        else {
+          $('#stepContainer-video').empty();
+        }
+        
+        // next, options
+        if (step.next !== undefined) {
+          elem = $('<a>').attr('href', 'javascript:void(0)').html('Next');
+          elem = $('<li>').append(elem);
+          elem.click(function() { option_click(this); });
+          
+          currentOptions.push(step.next);
+          
+          $('#stepContainer-options').append(elem);
+        }
+        else if (step.options !== undefined) {
+          
+          // auto-color yes/no
+          
+          if (step.options[0].text == 'Yes')
+            step.options[0].type = 'green';
+          if (step.options[1].text == 'No')
+            step.options[1].type = 'red';
+        
+          for (var i = 0; i < step.options.length; ++i) {
+            elem = $('<a>').attr('href', 'javascript:void(0)').html(step.options[i].text);
+            if (step.options[i].type !== undefined)
+              elem.addClass(step.options[i].type);
+            elem = $('<li>').append(elem);
+            elem.click(function() { option_click(this); });
+            
+            currentOptions.push(step.options[i].step);
+            
+            $('#stepContainer-options').append(elem);
+          }
+        }
+        
+        $('#stepContainer-content').animate({ opacity: 1 }, 250);
+        $('#stepContainer-options').delay(200).animate({ opacity: 1 }, 250, function() {
+          changing = false;
+        });
+      });
+    }
+    
+    var tasks = [
+      
+      '': {
+        'title': '',
+        'html': ''
+        // required: false // true by default
+      }
+      
+    ];
+    
+    var steps = {
+    
+      '': {
+        'html': '',
+        'next': 'example'
+      },
+      
+      'example': {
+        'html': '',
+        'options': [
+        
+          {
+            'text': '',
+            'step': ''
+          }
+          
+        ]
+      }
+      
+    };
+    
+    
+    $(function() {
+      $('.goBack').click(function() { go_back(); });
+      $('.startOver').click(function() { start_over(); });
+      
+      window.onhashchange = locationHash_changed;
+      
+      if (location.hash.substring(1) !== '') {
+        detached = true;
+      }
+      
+      $('h1').delay(100).animate({ opacity: 1 }, 250);
+      //$('#stepContainer-controls').delay(400).animate({ opacity: 1 }, 250);
+      /*$("#stepContainer-content").delay(400).animate({ opacity: 1 }, 250);
+      $("#stepContainer-bottom").delay(800).animate({ opacity: 1 }, 250);*/
+      
+      show_step(location.hash.substring(1));
+      locationHash_changed();
+    });
+  </script>
+</body>
+</html>
